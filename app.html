@@ -312,21 +312,33 @@ window.onload=async()=>{
 };
 
 // ── API HELPERS ───────────────────────────────────────────────────────────
+function getToken(){
+  const t=sessionStorage.getItem("sb_token");
+  if(!t){window.location.href="index.html";}
+  return t;
+}
+function authHeaders(extra){
+  return Object.assign({"apikey":SB_KEY,"Authorization":`Bearer ${getToken()}`},extra||{});
+}
 async function sbGet(table,query=""){
-  const r=await fetch(`${SB_URL}/rest/v1/${table}?${query}`,{headers:{"apikey":SB_KEY,"Authorization":`Bearer ${SB_KEY}`}});
+  const r=await fetch(`${SB_URL}/rest/v1/${table}?${query}`,{headers:authHeaders()});
+  if(r.status===401){sessionStorage.clear();window.location.href="index.html";}
   if(!r.ok)throw new Error(await r.text());
   return r.json();
 }
 async function sbPost(table,body){
-  const r=await fetch(`${SB_URL}/rest/v1/${table}`,{method:"POST",headers:{"Content-Type":"application/json","apikey":SB_KEY,"Authorization":`Bearer ${SB_KEY}`,"Prefer":"return=minimal"},body:JSON.stringify(body)});
+  const r=await fetch(`${SB_URL}/rest/v1/${table}`,{method:"POST",headers:authHeaders({"Content-Type":"application/json","Prefer":"return=minimal"}),body:JSON.stringify(body)});
+  if(r.status===401){sessionStorage.clear();window.location.href="index.html";}
   if(!r.ok)throw new Error(await r.text());
 }
 async function sbPatch(table,id,body){
-  const r=await fetch(`${SB_URL}/rest/v1/${table}?id=eq.${id}`,{method:"PATCH",headers:{"Content-Type":"application/json","apikey":SB_KEY,"Authorization":`Bearer ${SB_KEY}`,"Prefer":"return=minimal"},body:JSON.stringify(body)});
+  const r=await fetch(`${SB_URL}/rest/v1/${table}?id=eq.${id}`,{method:"PATCH",headers:authHeaders({"Content-Type":"application/json","Prefer":"return=minimal"}),body:JSON.stringify(body)});
+  if(r.status===401){sessionStorage.clear();window.location.href="index.html";}
   if(!r.ok)throw new Error(await r.text());
 }
 async function sbDelete(table,id){
-  const r=await fetch(`${SB_URL}/rest/v1/${table}?id=eq.${id}`,{method:"DELETE",headers:{"apikey":SB_KEY,"Authorization":`Bearer ${SB_KEY}`}});
+  const r=await fetch(`${SB_URL}/rest/v1/${table}?id=eq.${id}`,{method:"DELETE",headers:authHeaders()});
+  if(r.status===401){sessionStorage.clear();window.location.href="index.html";}
   if(!r.ok)throw new Error(await r.text());
 }
 
