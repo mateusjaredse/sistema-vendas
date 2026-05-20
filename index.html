@@ -43,9 +43,7 @@ input.erro{border-color:#ef4444}
 const SB_URL="https://ylldraicfwqaxbuqihul.supabase.co";
 const SB_KEY="sb_publishable_JmQg_sdxjS5RDQDU-2p92A_BcVI_pul";
 
-// Se já tem sessão válida, vai direto pro app
-const sess = sessionStorage.getItem("sb_token");
-if(sess) window.location.href="app.html";
+// Sem sessão salva — sempre pede login
 
 async function entrar(){
   const email=document.getElementById("email").value.trim();
@@ -66,7 +64,6 @@ async function entrar(){
       mostrarErro("E-mail ou senha incorretos.");
     } else {
       sessionStorage.setItem("sb_token", d.access_token);
-      sessionStorage.setItem("sb_refresh", d.refresh_token);
       window.location.href="app.html";
     }
   }catch(e){
