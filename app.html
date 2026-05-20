@@ -392,7 +392,7 @@ function acCliente(val){
   const v=val.toLowerCase();
   const res=CLIENTES.filter(c=>c.codigo.includes(v)||c.nome.toLowerCase().includes(v)).slice(0,8);
   if(!res.length){lista.style.display="none";return;}
-  lista.innerHTML=res.map(c=>`<div class="ac-item" onmousedown="selCliente(${JSON.stringify(c.codigo)})"><span class="ac-code">${c.codigo}</span><span class="ac-name">${c.nome}</span></div>`).join("");
+  lista.innerHTML=res.map(c=>`<div class="ac-item" onclick="selCliente(${JSON.stringify(c.codigo)})"><span class="ac-code">${c.codigo}</span><span class="ac-name">${c.nome}</span></div>`).join("");
   lista.style.display="block";
 }
 function selCliente(cod){
@@ -409,7 +409,7 @@ function acProduto(id,val){
   const v=val.toLowerCase();
   const res=PRODUTOS.filter(p=>p.codigo.includes(v)||p.nome.toLowerCase().includes(v)).slice(0,8);
   if(!res.length){lista.style.display="none";return;}
-  lista.innerHTML=res.map(p=>`<div class="ac-item" onmousedown="selProduto(${id},${JSON.stringify(p.codigo)})"><span class="ac-code">${p.codigo}</span><span class="ac-name">${p.nome}</span><span class="ac-price">R$ ${fmt(p.preco_unitario)}</span></div>`).join("");
+  lista.innerHTML=res.map(p=>`<div class="ac-item" onclick="selProduto(${id},${JSON.stringify(p.codigo)})"><span class="ac-code">${p.codigo}</span><span class="ac-name">${p.nome}</span><span class="ac-price">R$ ${fmt(p.preco_unitario)}</span></div>`).join("");
   lista.style.display="block";
 }
 function selProduto(id,cod){
@@ -422,7 +422,7 @@ function selProduto(id,cod){
 }
 
 document.addEventListener("click",e=>{
-  if(!e.target.closest(".ac-wrap"))document.querySelectorAll(".ac-list").forEach(l=>l.style.display="none");
+  if(!e.target.closest(".ac-wrap"))setTimeout(()=>document.querySelectorAll(".ac-list").forEach(l=>l.style.display="none"),150);
 });
 
 // ── TOGGLE OFERTA ─────────────────────────────────────────────────────────
