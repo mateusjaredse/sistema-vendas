@@ -146,22 +146,22 @@ if(!sessionStorage.getItem("sb_token")){window.location.href="index.html";}
       <div class="fg"><label>Horário</label><input type="time" id="v-hora"/></div>
       <div class="fg"><label>Número NFe</label><input type="text" id="v-nfe" placeholder="Ex: 438500"/></div>
     </div>
-    <div class="form-grid" style="grid-template-columns:1fr 2fr auto">
+    <div class="form-grid" style="grid-template-columns:1fr 2fr">
       <div class="fg">
-        <label>Cliente <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(código ou nome)</span></label>
+        <label>Código</label>
         <div class="ac-wrap">
           <input type="text" id="v-cli-cod" placeholder="Digite código ou nome..." autocomplete="off" oninput="acCliente(this.value)"/>
           <div class="ac-list" id="ac-cli" style="display:none"></div>
         </div>
-      </div>
-      <div class="fg"><label>Nome do Cliente</label><input type="text" id="v-cli-nome" readonly placeholder="Preenchido ao selecionar" style="color:#fff"/></div>
-      <div class="fg">
-        <label>Oferta Ativa</label>
-        <div class="toggle-wrap">
-          <button class="toggle" id="tgl-oferta" onclick="toggleOferta()"></button>
-          <span class="tgl-label" id="tgl-label">Não</span>
+        <div style="margin-top:10px">
+          <label>Oferta Ativa</label>
+          <div class="toggle-wrap" style="margin-top:6px">
+            <button class="toggle" id="tgl-oferta" onclick="toggleOferta()"></button>
+            <span class="tgl-label" id="tgl-label">Não</span>
+          </div>
         </div>
       </div>
+      <div class="fg"><label>Cliente</label><input type="text" id="v-cli-nome" readonly placeholder="Preenchido ao selecionar" style="color:#fff"/></div>
     </div>
   </div>
   <div class="card">
