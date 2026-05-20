@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sistema de Vendas — Acesso</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#0d0f14;color:#e2e8f0;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.box{background:#151820;border:1px solid #252a3a;border-radius:14px;padding:40px 36px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.logo{text-align:center;margin-bottom:32px}
+.logo-icon{font-size:36px;margin-bottom:10px}
+.logo-title{font-size:18px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#3b82f6}
+.logo-sub{font-size:12px;color:#4a5568;margin-top:4px}
+label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8892a4;display:block;margin-bottom:6px}
+input{width:100%;background:#1c2030;border:1px solid #252a3a;border-radius:8px;color:#e2e8f0;font-family:'DM Sans',sans-serif;font-size:15px;padding:11px 14px;outline:none;transition:border-color .15s;margin-bottom:16px}
+input:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+input.erro{border-color:#ef4444}
+.btn{width:100%;padding:12px;background:#3b82f6;color:white;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:hover:not(:disabled){background:#2563eb}
+.btn:disabled{background:#1e3a5f;color:#4a6fa5;cursor:not-allowed}
+.msg-erro{color:#fca5a5;font-size:13px;text-align:center;margin-top:12px;display:none;background:#7f1d1d;padding:10px;border-radius:6px;border:1px solid #991b1b}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .5s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    <div class="logo-title">Sistema de Vendas</div>
+    <div class="logo-sub">Faturamento & Gestão</div>
+  </div>
+  <label>E-mail</label>
+  <input type="email" id="email" placeholder="seu@email.com" onkeydown="if(event.key==='Enter')entrar()"/>
+  <label>Senha</label>
+  <input type="password" id="senha" placeholder="••••••••" onkeydown="if(event.key==='Enter')entrar()"/>
+  <button class="btn" id="btn-entrar" onclick="entrar()">Entrar</button>
+  <div class="msg-erro" id="msg-erro"></div>
+</div>
+<script>
+const SB_URL="https://ylldraicfwqaxbuqihul.supabase.co";
+const SB_KEY="sb_publishable_JmQg_sdxjS5RDQDU-2p92A_BcVI_pul";
+
+// Se já tem sessão válida, vai direto pro app
+const sess = sessionStorage.getItem("sb_token");
+if(sess) window.location.href="app.html";
+
+async function entrar(){
+  const email=document.getElementById("email").value.trim();
+  const senha=document.getElementById("senha").value;
+  const btn=document.getElementById("btn-entrar");
+  const erro=document.getElementById("msg-erro");
+  if(!email||!senha){mostrarErro("Preencha e-mail e senha.");return;}
+  btn.innerHTML='<span class="spinner"></span> Entrando...';
+  btn.disabled=true;erro.style.display="none";
+  try{
+    const r=await fetch(`${SB_URL}/auth/v1/token?grant_type=password`,{
+      method:"POST",
+      headers:{"Content-Type":"application/json","apikey":SB_KEY},
+      body:JSON.stringify({email,password:senha})
+    });
+    const d=await r.json();
+    if(!r.ok||!d.access_token){
+      mostrarErro("E-mail ou senha incorretos.");
+    } else {
+      sessionStorage.setItem("sb_token", d.access_token);
+      sessionStorage.setItem("sb_refresh", d.refresh_token);
+      window.location.href="app.html";
+    }
+  }catch(e){
+    mostrarErro("Erro de conexão. Tente novamente.");
+  }
+  btn.innerHTML="Entrar";btn.disabled=false;
+}
+
+function mostrarErro(msg){
+  const el=document.getElementById("msg-erro");
+  el.textContent=msg;el.style.display="block";
+  document.getElementById("senha").classList.add("erro");
+  document.getElementById("senha").value="";
+  setTimeout(()=>document.getElementById("senha").classList.remove("erro"),1500);
+}
+</script>
+</body>
+</html>
