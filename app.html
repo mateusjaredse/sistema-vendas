@@ -35,7 +35,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
 label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.08em}
 input,select,textarea{background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--sans);font-size:14px;padding:8px 11px;outline:none;transition:border-color .15s,box-shadow .15s;width:100%}
 input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(59,130,246,.1)}
-input[readonly]{color:var(--accent2);cursor:default}
+input[readonly]{color:#fff;cursor:default}
 input[readonly]:focus{border-color:var(--border);box-shadow:none}
 .ac-wrap{position:relative}
 .ac-list{position:absolute;top:calc(100% + 2px);left:0;right:0;z-index:200;background:#1a1f2e;border:1px solid var(--accent);border-radius:8px;max-height:220px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.5)}.item-row .ac-list{min-width:480px}
@@ -141,18 +141,20 @@ if(!sessionStorage.getItem("sb_token")){window.location.href="index.html";}
   </div>
   <div class="card">
     <div class="card-title">📄 Dados da Nota Fiscal</div>
-    <div class="form-grid">
+    <div class="form-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:12px">
       <div class="fg"><label>Data</label><input type="date" id="v-data"/></div>
       <div class="fg"><label>Horário</label><input type="time" id="v-hora"/></div>
       <div class="fg"><label>Número NFe</label><input type="text" id="v-nfe" placeholder="Ex: 438500"/></div>
-      <div class="fg w2">
+    </div>
+    <div class="form-grid" style="grid-template-columns:1fr 2fr auto">
+      <div class="fg">
         <label>Cliente <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(código ou nome)</span></label>
         <div class="ac-wrap">
           <input type="text" id="v-cli-cod" placeholder="Digite código ou nome..." autocomplete="off" oninput="acCliente(this.value)"/>
           <div class="ac-list" id="ac-cli" style="display:none"></div>
         </div>
       </div>
-      <div class="fg w2"><label>Nome do Cliente</label><input type="text" id="v-cli-nome" readonly placeholder="Preenchido ao selecionar"/></div>
+      <div class="fg"><label>Nome do Cliente</label><input type="text" id="v-cli-nome" readonly placeholder="Preenchido ao selecionar" style="color:#fff"/></div>
       <div class="fg">
         <label>Oferta Ativa</label>
         <div class="toggle-wrap">
@@ -443,7 +445,7 @@ function addItem(){
       <input type="text" id="i-cod-${id}" placeholder="Código" autocomplete="off" oninput="acProduto(${id},this.value)" style="font-family:var(--mono);font-size:12px"/>
       <div class="ac-list" id="ac-p-${id}" style="display:none"></div>
     </div>
-    <input type="text" id="i-nome-${id}" placeholder="Nome do produto" readonly/>
+    <input type="text" id="i-nome-${id}" placeholder="Nome do produto" readonly style="color:#fff"/>
     <input type="number" id="i-preco-${id}" placeholder="0,00" step="0.01" oninput="calcItemTotal(${id})"/>
     <input type="number" id="i-qtd-${id}" value="1" min="1" step="1" oninput="calcItemTotal(${id})"/>
     <div class="total-cell" id="i-tot-${id}">R$ 0,00</div>
