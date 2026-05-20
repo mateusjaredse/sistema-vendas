@@ -247,11 +247,20 @@ if(!sessionStorage.getItem("sb_token")){window.location.href="index.html";}
     <h2>✏️ Editar Registro</h2>
     <div class="form-grid">
       <div class="fg"><label>NFe</label><input type="text" id="e-nfe"/></div>
+      <div class="fg"><label>Cód. Cliente</label><input type="text" id="e-codcli"/></div>
+      <div class="fg w2"><label>Nome Cliente</label><input type="text" id="e-nomecli" style="color:#fff"/></div>
       <div class="fg"><label>Cód. Produto</label><input type="text" id="e-cod"/></div>
       <div class="fg w2"><label>Descrição</label><input type="text" id="e-desc"/></div>
       <div class="fg"><label>Quantidade</label><input type="number" id="e-qtd" min="1" step="1" oninput="calcEditTotal()"/></div>
       <div class="fg"><label>Preço Unit.</label><input type="number" id="e-preco" step="0.01" oninput="calcEditTotal()"/></div>
       <div class="fg"><label>Total</label><input type="text" id="e-total" readonly/></div>
+      <div class="fg">
+        <label>Oferta Ativa</label>
+        <div class="toggle-wrap" style="margin-top:6px">
+          <button class="toggle" id="e-tgl-oferta" onclick="toggleEditOferta()"></button>
+          <span class="tgl-label" id="e-tgl-label">Não</span>
+        </div>
+      </div>
     </div>
     <div class="btn-row"><button class="btn btn-secondary" onclick="fecharModal('modal-venda')">Cancelar</button><button class="btn btn-primary" onclick="salvarEditVenda()">Salvar</button></div>
   </div>
@@ -576,12 +585,24 @@ function abrirEditVenda(id){
   const r=todosRegistros.find(x=>x.id===id);if(!r)return;
   editVendaId=id;
   document.getElementById("e-nfe").value=r.num_nf||"";
+  document.getElementById("e-codcli").value=r.cod_cliente||"";
+  document.getElementById("e-nomecli").value=r.nome_cliente||"";
   document.getElementById("e-cod").value=r.cod_item||"";
   document.getElementById("e-desc").value=r.descricao_item||"";
   document.getElementById("e-qtd").value=r.quantidade||1;
   document.getElementById("e-preco").value=r.preco_unit||0;
+  const oferta=(r.oferta_ativa||"Não")==="Sim";
+  document.getElementById("e-tgl-oferta").classList.toggle("on",oferta);
+  document.getElementById("e-tgl-label").textContent=oferta?"Sim":"Não";
+  document.getElementById("e-tgl-label").classList.toggle("on",oferta);
   calcEditTotal();
   document.getElementById("modal-venda").classList.add("open");
+}
+function toggleEditOferta(){
+  const btn=document.getElementById("e-tgl-oferta");
+  const lbl=document.getElementById("e-tgl-label");
+  const on=btn.classList.toggle("on");
+  lbl.textContent=on?"Sim":"Não";lbl.classList.toggle("on",on);
 }
 function calcEditTotal(){
   const p=parseFloat(document.getElementById("e-preco").value)||0;
@@ -592,7 +613,8 @@ async function salvarEditVenda(){
   const preco=parseFloat(document.getElementById("e-preco").value)||0;
   const qtd=parseFloat(document.getElementById("e-qtd").value)||0;
   try{
-    await sbPatch(TB_VENDAS,editVendaId,{num_nf:document.getElementById("e-nfe").value,cod_item:document.getElementById("e-cod").value,descricao_item:document.getElementById("e-desc").value,quantidade:qtd,preco_unit:preco,total_item:parseFloat((preco*qtd).toFixed(2))});
+    const ofertaEdit=document.getElementById("e-tgl-oferta").classList.contains("on")?"Sim":"Não";
+    await sbPatch(TB_VENDAS,editVendaId,{num_nf:document.getElementById("e-nfe").value,cod_cliente:document.getElementById("e-codcli").value,nome_cliente:document.getElementById("e-nomecli").value,cod_item:document.getElementById("e-cod").value,descricao_item:document.getElementById("e-desc").value,quantidade:qtd,preco_unit:preco,total_item:parseFloat((preco*qtd).toFixed(2)),oferta_ativa:ofertaEdit});
     toast("✅ Atualizado","success");fecharModal("modal-venda");carregarHistorico();
   }catch(e){toast("Erro: "+e.message,"error");}
 }
