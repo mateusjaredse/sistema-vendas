@@ -46,16 +46,14 @@ input:focus,select:focus,textarea:focus{border-color:rgba(59,130,246,.55);box-sh
 input::placeholder,textarea::placeholder{color:rgba(255,255,255,.22)}
 input[readonly]{color:var(--accent2);cursor:default}
 input[readonly]:focus{border-color:var(--border);box-shadow:none}
-.ac-wrap{position:relative;z-index:20}
-.ac-wrap:focus-within{z-index:300}
-.ac-list{position:absolute;top:calc(100% + 2px);left:0;right:0;z-index:400;background:#1a1f2e;border:1px solid var(--accent);border-radius:8px;max-height:220px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.ac-wrap{position:relative}
+.ac-list{position:absolute;top:calc(100% + 2px);left:0;right:0;z-index:200;background:#1a1f2e;border:1px solid var(--accent);border-radius:8px;max-height:220px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.5)}
 .ac-item{padding:9px 12px;font-size:13px;cursor:pointer;display:flex;gap:10px;align-items:center;border-bottom:1px solid rgba(255,255,255,.04)}
 .ac-item:last-child{border-bottom:none}
 .ac-item:hover,.ac-item.sel{background:rgba(59,130,246,.15)}
 .ac-code{font-family:var(--mono);color:var(--accent);font-size:11px;min-width:65px;flex-shrink:0}
-.ac-name{color:var(--text);font-size:12px;white-space:normal;overflow:visible;line-height:1.3}
+.ac-name{color:var(--text);font-size:12px}
 .ac-price{font-family:var(--mono);color:var(--accent2);font-size:11px;margin-left:auto;flex-shrink:0}
-.item-row .ac-list{width:min(520px,calc(100vw - 310px));right:auto}
 .itens-header{display:grid;grid-template-columns:140px 1fr 130px 90px 130px 38px;gap:8px;padding:9px 10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(226,232,240,.45);border-bottom:1px solid rgba(255,255,255,.08)}
 .item-row{display:grid;grid-template-columns:140px 1fr 130px 90px 130px 38px;gap:8px;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.045);align-items:center}
 .item-row input{padding:6px 9px;font-size:13px}
@@ -407,7 +405,7 @@ function acCliente(val){
   const v=val.toLowerCase();
   const res=CLIENTES.filter(c=>c.codigo.includes(v)||c.nome.toLowerCase().includes(v)).slice(0,8);
   if(!res.length){lista.style.display="none";return;}
-  lista.innerHTML=res.map(c=>`<div class="ac-item" onmousedown="selCliente(${JSON.stringify(c.codigo)})" onclick="selCliente(${JSON.stringify(c.codigo)})"><span class="ac-code">${c.codigo}</span><span class="ac-name">${c.nome}</span></div>`).join("");
+  lista.innerHTML=res.map(c=>`<div class="ac-item" onclick="selCliente(${JSON.stringify(c.codigo)})"><span class="ac-code">${c.codigo}</span><span class="ac-name">${c.nome}</span></div>`).join("");
   lista.style.display="block";
 }
 function selCliente(cod){
@@ -424,7 +422,7 @@ function acProduto(id,val){
   const v=val.toLowerCase();
   const res=PRODUTOS.filter(p=>p.codigo.includes(v)||p.nome.toLowerCase().includes(v)).slice(0,8);
   if(!res.length){lista.style.display="none";return;}
-  lista.innerHTML=res.map(p=>`<div class="ac-item" onmousedown="selProduto(${id},${JSON.stringify(p.codigo)})" onclick="selProduto(${id},${JSON.stringify(p.codigo)})"><span class="ac-code">${p.codigo}</span><span class="ac-name">${p.nome}</span><span class="ac-price">R$ ${fmt(p.preco_unitario)}</span></div>`).join("");
+  lista.innerHTML=res.map(p=>`<div class="ac-item" onclick="selProduto(${id},${JSON.stringify(p.codigo)})"><span class="ac-code">${p.codigo}</span><span class="ac-name">${p.nome}</span><span class="ac-price">R$ ${fmt(p.preco_unitario)}</span></div>`).join("");
   lista.style.display="block";
 }
 function selProduto(id,cod){
@@ -611,6 +609,7 @@ async function salvarEditVenda(){
   }catch(e){toast("Erro: "+e.message,"error");}
 }
 async function excluirVenda(id){
+  if(!confirm("Excluir este registro?"))return;
   try{await sbDelete(TB_VENDAS,id);toast("🗑 Excluído","success");carregarHistorico();}
   catch(e){toast("Erro: "+e.message,"error");}
 }
@@ -636,6 +635,7 @@ async function salvarCliente(){
 }
 function editarCliente(id){abrirModalCliente(id);}
 async function excluirCliente(id){
+  if(!confirm("Excluir este cliente?"))return;
   try{await sbDelete(TB_CLIENTES,id);toast("🗑 Cliente excluído","success");await carregarClientes();renderClientes(todosClientes);}
   catch(e){toast("Erro: "+e.message,"error");}
 }
@@ -662,6 +662,7 @@ async function salvarProduto(){
 }
 function editarProduto(id){abrirModalProduto(id);}
 async function excluirProduto(id){
+  if(!confirm("Excluir este produto?"))return;
   try{await sbDelete(TB_PRODUTOS,id);toast("🗑 Produto excluído","success");await carregarProdutos();renderProdutos(todosProdutos);}
   catch(e){toast("Erro: "+e.message,"error");}
 }
