@@ -33,7 +33,7 @@ body::after{content:"";position:fixed;inset:0;background:rgba(15,23,42,.14);poin
 .page-header{margin-bottom:24px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
 .page-header-left h1{font-size:26px;font-weight:700;color:#fff;letter-spacing:0}
 .page-header-left p{font-size:14px;color:var(--text2);margin-top:4px}
-.card{background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:24px;margin-bottom:20px;backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);box-shadow:0 22px 70px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.1)}
+.card{background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:24px;margin-bottom:20px;backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);box-shadow:0 22px 70px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.1);position:relative;z-index:1}
 .card-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(241,245,249,.68);margin-bottom:18px;display:flex;align-items:center;gap:8px}
 .form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
 .fg{display:flex;flex-direction:column;gap:5px}.fg.full{grid-column:1/-1}.fg.w2{grid-column:span 2}.fg.w3{grid-column:span 3}
@@ -42,8 +42,10 @@ input,select,textarea{background:rgba(255,255,255,.085);border:1px solid rgba(25
 input:focus,select:focus,textarea:focus{border-color:rgba(59,130,246,.55);box-shadow:0 0 0 3px rgba(59,130,246,.13);background:rgba(59,130,246,.08)}
 input::placeholder,textarea::placeholder{color:rgba(255,255,255,.26)}
 input[readonly]{color:#fff;cursor:default}input[readonly]:focus{border-color:var(--border);box-shadow:none}
-.ac-wrap{position:relative}
-.ac-list{position:absolute;top:calc(100% + 2px);left:0;right:0;z-index:200;background:#1a1f2e;border:1px solid var(--accent);border-radius:8px;max-height:220px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.ac-wrap{position:relative;z-index:20}
+.card:has(.ac-wrap:focus-within){z-index:50}
+.ac-wrap:focus-within{z-index:500}
+.ac-list{position:absolute;top:calc(100% + 2px);left:0;right:0;z-index:999;background:#1a1f2e;border:1px solid var(--accent);border-radius:8px;max-height:220px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.5)}
 .item-row .ac-list{min-width:480px}
 .ac-item{padding:9px 12px;font-size:13px;cursor:pointer;display:flex;gap:10px;align-items:center;border-bottom:1px solid rgba(255,255,255,.04)}
 .ac-item:last-child{border-bottom:none}.ac-item:hover,.ac-item.sel{background:rgba(59,130,246,.15)}
