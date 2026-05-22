@@ -212,6 +212,7 @@ if(!sessionStorage.getItem("sb_token")){window.location.href="index.html";}
   <div class="modal">
     <h2>✏️ Editar Registro</h2>
     <div class="form-grid">
+      <div class="fg"><label>Data</label><input type="date" id="e-data"/></div>
       <div class="fg"><label>NFe</label><input type="text" id="e-nfe"/></div>
       <div class="fg"><label>Cód. Cliente</label><input type="text" id="e-codcli"/></div>
       <div class="fg w2"><label>Nome Cliente</label><input type="text" id="e-nomecli" style="color:#fff"/></div>
@@ -567,6 +568,7 @@ function limparFiltros(){
 function abrirEditVenda(id){
   const r=todosRegistros.find(x=>x.id===id);if(!r)return;
   editVendaId=id;
+  document.getElementById("e-data").value=r.data||"";
   document.getElementById("e-nfe").value=r.num_nf||"";
   document.getElementById("e-codcli").value=r.cod_cliente||"";
   document.getElementById("e-nomecli").value=r.nome_cliente||"";
@@ -597,7 +599,7 @@ async function salvarEditVenda(){
   const qtd=parseFloat(document.getElementById("e-qtd").value)||0;
   try{
     const ofertaEdit=document.getElementById("e-tgl-oferta").classList.contains("on")?"Sim":"Não";
-    await sbPatch(TB_VENDAS,editVendaId,{num_nf:document.getElementById("e-nfe").value,cod_cliente:document.getElementById("e-codcli").value,nome_cliente:document.getElementById("e-nomecli").value,cod_item:document.getElementById("e-cod").value,descricao_item:document.getElementById("e-desc").value,quantidade:qtd,preco_unit:preco,total_item:parseFloat((preco*qtd).toFixed(2)),oferta_ativa:ofertaEdit});
+    await sbPatch(TB_VENDAS,editVendaId,{data:document.getElementById("e-data").value,num_nf:document.getElementById("e-nfe").value,cod_cliente:document.getElementById("e-codcli").value,nome_cliente:document.getElementById("e-nomecli").value,cod_item:document.getElementById("e-cod").value,descricao_item:document.getElementById("e-desc").value,quantidade:qtd,preco_unit:preco,total_item:parseFloat((preco*qtd).toFixed(2)),oferta_ativa:ofertaEdit});
     toast("✅ Atualizado","success");fecharModal("modal-venda");carregarHistorico();
   }catch(e){toast("Erro: "+e.message,"error");}
 }
