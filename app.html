@@ -152,7 +152,8 @@ if(!sessionStorage.getItem("sb_token")){window.location.href="index.html";}
   <div class="card">
     <div class="filters">
       <input type="text" id="f-txt" placeholder="Buscar NF, cliente, produto..." oninput="filtrar()"/>
-      <input type="date" id="f-data" oninput="filtrar()"/>
+      <input type="month" id="f-mes" oninput="filtrar()" title="Filtrar por mês"/>
+      <input type="date" id="f-data" oninput="filtrar()" title="Filtrar por dia específico"/>
       <button class="btn btn-secondary btn-sm" onclick="limparFiltros()">Limpar</button>
       <button class="btn btn-secondary btn-sm" onclick="carregarHistorico()" style="margin-left:auto">↻ Atualizar</button>
     </div>
@@ -544,16 +545,20 @@ function renderHistorico(d){
 }
 function filtrar(){
   const txt=document.getElementById("f-txt").value.toLowerCase();
-  const data=document.getElementById("f-data").value;
+  const mes=document.getElementById("f-mes").value;   // "2026-03"
+  const data=document.getElementById("f-data").value; // "2026-03-15"
+  // dia específico tem prioridade; se não tiver dia, filtra por mês
+  const filtData = data || mes;
   const f=todosRegistros.filter(r=>{
     const mt=!txt||(r.nome_cliente||"").toLowerCase().includes(txt)||(r.num_nf||"").includes(txt)||(r.descricao_item||"").toLowerCase().includes(txt)||(r.cod_cliente||"").includes(txt);
-    const md=!data||(r.data||"").startsWith(data);
+    const md=!filtData||(r.data||"").startsWith(filtData);
     return mt&&md;
   });
   renderHistorico(f);renderStats(f);
 }
 function limparFiltros(){
   document.getElementById("f-txt").value="";
+  document.getElementById("f-mes").value="";
   document.getElementById("f-data").value="";
   renderHistorico(todosRegistros);renderStats(todosRegistros);
 }
