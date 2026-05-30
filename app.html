@@ -33,6 +33,7 @@ body::after{content:"";position:fixed;inset:0;background:rgba(15,23,42,.14);poin
 .main::-webkit-scrollbar-thumb,.ac-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:999px}
 .page{display:none;padding:34px 38px;max-width:1400px}
 .page.active{display:block}
+#page-dashboard.active{padding:0;height:calc(100vh);overflow:hidden;}
 .page-header{margin-bottom:24px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
 .page-header-left h1{font-size:26px;font-weight:700;color:#fff;letter-spacing:0}
 .page-header-left p{font-size:14px;color:var(--text2);margin-top:4px}
@@ -96,6 +97,9 @@ if(!sessionStorage.getItem("sb_token")){window.location.href="index.html";}
   <div class="nav-section">Cadastros</div>
   <div class="nav-item" onclick="showPage('clientes',this)">👥 &nbsp;Clientes</div>
   <div class="nav-item" onclick="showPage('produtos',this)">📦 &nbsp;Produtos</div>
+  <div class="nav-divider"></div>
+  <div class="nav-section">Dashboard</div>
+  <div class="nav-item" onclick="showPage('dashboard',this)">📊 &nbsp;Painel Geral</div>
 </div>
 <div class="main">
 
@@ -204,6 +208,11 @@ if(!sessionStorage.getItem("sb_token")){window.location.href="index.html";}
   </div>
 </div>
 
+<!-- DASHBOARD -->
+<div class="page" id="page-dashboard" style="padding:0;height:calc(100vh - 0px);display:none">
+  <iframe id="iframe-dashboard" src="DASHBOARD.html" style="width:100%;height:100%;border:none;border-radius:0;display:block;"></iframe>
+</div>
+
 </div><!-- /main -->
 </div><!-- /app -->
 
@@ -292,6 +301,9 @@ let editVendaId=null,editClienteId=null,editProdutoId=null;
 
 // ── INIT ─────────────────────────────────────────────────────────────────
 window.onload=async()=>{
+  document.querySelectorAll(".page").forEach(x=>{
+    if(!x.classList.contains("active"))x.style.display="none";
+  });
   const now=new Date();
   document.getElementById("v-data").value=now.toISOString().split("T")[0];
   document.getElementById("v-hora").value=now.toTimeString().slice(0,5);
@@ -333,9 +345,11 @@ async function sbDelete(table,id){
 
 // ── NAVEGAÇÃO ─────────────────────────────────────────────────────────────
 function showPage(p,el){
-  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(x=>{x.classList.remove("active");x.style.display="none";});
   document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));
-  document.getElementById("page-"+p).classList.add("active");
+  const pg=document.getElementById("page-"+p);
+  pg.classList.add("active");
+  pg.style.display=(p==="dashboard")?"block":"block";
   el.classList.add("active");
   if(p==="historico")carregarHistorico();
   if(p==="clientes")renderClientes(todosClientes);
