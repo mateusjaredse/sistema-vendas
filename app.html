@@ -75,8 +75,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}thead tr{border-bottom:
 .modal-bg{position:fixed;inset:0;background:rgba(3,7,18,.78);z-index:800;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}.modal-bg.open{display:flex}.modal{background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:28px;width:92%;max-width:480px;max-height:90vh;overflow-y:auto;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 25px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08)}.modal h2{font-size:18px;font-weight:700;margin-bottom:20px}
 .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.2);border-top-color:white;border-radius:50%;animation:spin .5s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.empty{text-align:center;padding:44px 20px;color:var(--text3)}.empty-icon{font-size:36px;margin-bottom:10px}.tag-new{display:inline-block;background:rgba(16,185,129,.15);color:var(--accent2);font-size:9px;font-weight:700;letter-spacing:.08em;padding:1px 5px;border-radius:3px;vertical-align:middle;margin-left:5px}
 
-/* ── DASHBOARD (Painel Geral) ─────────────────────── */
-/* Styles scoped to dashboard page */
+/* ── PAINEL GERAL ─────────────────────────────────────────── */
 .dash-main{flex:1;overflow:visible;padding:14px 24px;display:flex;flex-direction:column;}
 #page-painel{display:none;}
 #page-painel.active{display:flex;flex-direction:column;height:100%;}
@@ -419,7 +418,6 @@ body{font-family:var(--sans);background:#0d0f14 url("Green Yellow Modern Illustr
 .pop-badge-sim{display:inline-block;padding:2px 7px;border-radius:3px;font-size:9px;font-weight:700;background:rgba(16,185,129,.12);color:var(--accent2);border:1px solid rgba(16,185,129,.2)}
 .pop-empty{font-size:11px;color:var(--text3);text-align:center;padding:12px 0}
 
-
 </style>
 </head>
 <body>
@@ -556,8 +554,9 @@ if(!sessionStorage.getItem("sb_token")){window.location.href="index.html";}
 </div><!-- /main -->
 </div><!-- /app -->
 
-<!-- PAINEL GERAL (Dashboard) -->
-<div class="page" id="page-painel" style="padding:0;max-width:none;">
+
+<!-- ══ PAINEL GERAL ══ -->
+<div class="page" id="page-painel" style="padding:0;max-width:none;height:100%;">
 <div class="dash-main">
   <div class="pg-header">
     <h1>Painel Geral</h1>
@@ -733,11 +732,10 @@ if(!sessionStorage.getItem("sb_token")){window.location.href="index.html";}
             .ra-tab{flex:1;padding:5px 0;text-align:center;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;cursor:pointer;color:var(--text3);border:1px solid transparent;transition:all .2s;background:transparent}
             .ra-tab.active{background:var(--surface2);color:var(--text);border-color:var(--border)}
             .ra-tab:hover:not(.active){color:var(--text2)}
-            .ra-big-val{font-family:var(--mono);font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1;margin-bottom:4px;min-height:28px;white-space:nowrap}
-            .ra-big-val .ra-prefix{font-size:15px;font-weight:500;margin-right:3px;transition:color .3s ease}
-            .ra-big-val .ra-num{transition:color .3s ease}
-            .ra-meta-line{font-size:11px;color:var(--text3);margin-bottom:10px;min-height:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-            .ra-meta-line b{font-family:var(--mono);font-weight:600;transition:color .3s ease}
+            .ra-big-val{font-family:var(--mono);font-size:24px;font-weight:700;color:#4c92f8;letter-spacing:-.02em;line-height:1;margin-bottom:4px;min-height:28px;white-space:nowrap}
+            .ra-big-val span{font-size:15px;font-weight:500;color:#4c92f8;margin-right:3px}
+            .ra-meta-line{font-size:11px;color:var(--text2);margin-bottom:10px;min-height:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+            .ra-meta-line b{font-family:var(--mono);font-weight:600;color:var(--text2)}
             .ra-progress-wrap{margin-bottom:6px;margin-top:10px}
             .ra-meta-row{display:flex;justify-content:flex-end;margin-bottom:4px}
             .ra-meta-lbl{font-family:var(--mono);font-size:10px;color:var(--text3)}
@@ -750,7 +748,8 @@ if(!sessionStorage.getItem("sb_token")){window.location.href="index.html";}
             .ra-prog-labels{display:flex;justify-content:space-between;align-items:center;font-size:10px;min-height:15px}
             .ra-prog-pct{font-family:var(--mono);font-weight:700;white-space:nowrap}
             .ra-pct-green{color:#10b981}.ra-pct-blue{color:#4c92f8}.ra-pct-yellow{color:#f59e0b}.ra-pct-red{color:#f14b4b}
-            .ra-prog-surplus{font-family:var(--mono);font-size:10px;color:var(--text3);white-space:nowrap}            .ra-divider{height:1px;background:var(--border);margin:12px 0}
+            .ra-prog-surplus{font-family:var(--mono);font-size:10px;color:var(--text3);white-space:nowrap}
+            .ra-divider{height:1px;background:var(--border);margin:12px 0}
             .ra-tl-header{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:8px}
             .ra-tl-dots{display:flex;align-items:center;gap:3px;margin-bottom:5px}
             .ra-tl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;cursor:default;transition:transform .2s;position:relative}
@@ -773,8 +772,8 @@ if(!sessionStorage.getItem("sb_token")){window.location.href="index.html";}
             <div class="ra-tab" onclick="raSwitchTab(this,'mes')">Mês</div>
           </div>
 
-          <div class="ra-big-val"><span class="ra-prefix" id="ra-prefix" style="color:#4c92f8">R$</span><span class="ra-num" id="ra-val-num" style="color:#4c92f8">14.500,00</span></div>
-          <div class="ra-meta-line" id="ra-meta-line">Previsão do dia · projeção <b id="ra-proj-val" style="color:#4c92f8">R$ 38.667,00</b></div>
+          <div class="ra-big-val"><span>R$</span><span id="ra-val-num">14.500,00</span></div>
+          <div class="ra-meta-line" id="ra-meta-line">Previsão do dia · projeção <b>R$ 38.667,00</b></div>
 
           <div class="ra-progress-wrap">
             <div class="ra-meta-row"><span class="ra-meta-lbl" id="ra-meta-label">Meta R$ 32.500,00</span></div>
@@ -1566,7 +1565,7 @@ if(!sessionStorage.getItem("sb_token")){window.location.href="index.html";}
 
   </div><!-- /main-grid -->
 </div><!-- /main -->
-
+</div><!-- /app -->
 
 <!-- POPOVER -->
 <div class="pop-overlay" id="pop-overlay" onclick="fecharPop(event)">
@@ -1596,7 +1595,7 @@ if(!sessionStorage.getItem("sb_token")){window.location.href="index.html";}
 
 
 
-</div>
+</div><!-- /page-painel -->
 
 <!-- MODAL EDIT VENDA -->
 <div class="modal-bg" id="modal-venda">
@@ -2068,15 +2067,11 @@ function fmt(n){return Number(n).toLocaleString("pt-BR",{minimumFractionDigits:2
 function toast(msg,tipo){const el=document.getElementById("toast");el.textContent=msg;el.className=tipo;el.style.display="block";setTimeout(()=>el.style.display="none",3500);}
 function fecharModal(id){document.getElementById(id).classList.remove("open");}
 
+/* ── Dashboard scripts ── */
+window._dashTlInited=false;
+window._initDashTl=function(){
+  if(window._dashTlInited)return;window._dashTlInited=true;
 
-/* ── DASHBOARD SCRIPTS ─────────────────────────────────────────── */
-(function(){
-// Inline ra-tl-dots script (wrapped in IIFE to run on demand)
-window._dashTlInited = false;
-window._initDashTl = function() {
-  if(window._dashTlInited) return;
-  window._dashTlInited = true;
-  
           (function(){
             const days=[
               {s:'neg',d:'01/05'},{s:'neg',d:'02/05'},{s:'pos',d:'04/05'},{s:'neg',d:'05/05'},
@@ -2097,18 +2092,12 @@ window._initDashTl = function() {
             quinzena:{faturado:'166.500,00',projecao:'R$ 313.167,00',metaLabel:'Meta R$ 325.000,00',label:'Previsão da quinzena · projeção',pct:'96,4% previsto — em risco ⚠️',surplus:'Falta R$ 11.833,00',fill:96,status:'yellow'},
             mes:{faturado:'448.000,00',projecao:'R$ 616.667,00',metaLabel:'Meta R$ 650.000,00',label:'Previsão do mês · projeção',pct:'94,9% previsto — não bate ✕',surplus:'Falta R$ 33.333,00',fill:95,status:'red'},
           };
-          const statusColor={green:'#10b981',blue:'#4c92f8',yellow:'#f59e0b',red:'#f14b4b'};
           function raSwitchTab(el,key){
             document.querySelectorAll('.ra-tab').forEach(t=>t.classList.remove('active'));
             el.classList.add('active');
             const d=raTabData[key];
-            const col=statusColor[d.status];
             document.getElementById('ra-val-num').textContent=d.faturado;
-            document.getElementById('ra-val-num').style.color=col;
-            document.getElementById('ra-prefix').style.color=col;
-            document.getElementById('ra-meta-line').childNodes[0].textContent=d.label+' ';
-            document.getElementById('ra-proj-val').textContent=d.projecao;
-            document.getElementById('ra-proj-val').style.color=col;
+            document.getElementById('ra-meta-line').innerHTML=d.label+' <b>'+d.projecao+'</b>';
             document.getElementById('ra-meta-label').textContent=d.metaLabel;
             document.getElementById('ra-prog-pct').textContent=d.pct;
             document.getElementById('ra-prog-surplus').textContent=d.surplus;
@@ -2120,8 +2109,6 @@ window._initDashTl = function() {
           }
           
 };
-})();
-
 
 // ── DADOS MOCK ──────────────────────────────────────────────────────
 const META_DIARIA = 32500;
@@ -2315,7 +2302,6 @@ renderProgresso();
 renderTabela();
 
 
-
 document.addEventListener("DOMContentLoaded",()=>{
   const hero = document.querySelector(".hero");
   const scanner = document.getElementById("hero-scanner");
@@ -2405,3 +2391,4 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 </script>
 </body>
+</html>
